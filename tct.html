@@ -179,24 +179,35 @@ a { color: inherit; text-decoration: none; }
 /* ============ Phone mockup ============ */
 .phone {
   position: relative;
-  width: 250px;
-  background: #0f0b08;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 34px;
+  width: 260px;
+  background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+  border: 2px solid rgba(0, 212, 255, 0.3);
+  border-radius: 36px;
   padding: 14px 12px 18px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.phone::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 38px;
+  background: linear-gradient(145deg, #00d4ff, #7b2ff7, #ff006e);
+  z-index: -1;
+  opacity: 0.4;
+  filter: blur(8px);
 }
 .phone-notch {
-  width: 90px;
+  width: 80px;
   height: 6px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.18);
+  background: linear-gradient(90deg, #00d4ff, #7b2ff7);
   margin: 0 auto 12px;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 }
 .phone-screen {
-  background: linear-gradient(180deg, #241b12, #150f09);
-  border-radius: 20px;
-  padding: 14px 12px;
+  background: linear-gradient(180deg, #16213e, #0a0a15);
+  border-radius: 22px;
+  padding: 16px 12px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -207,23 +218,28 @@ a { color: inherit; text-decoration: none; }
 
 .screen-kicker {
   font-size: 0.55rem;
-  letter-spacing: 0.18em;
-  color: var(--primary);
-  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: #00d4ff;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 .screen-title {
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-weight: 700;
-  font-size: 0.95rem;
-  margin-bottom: 4px;
+  font-weight: 800;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  background: linear-gradient(90deg, #00d4ff, #7b2ff7, #ff006e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .screen-search {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
-  padding: 6px 10px;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 12px;
+  padding: 8px 12px;
   font-size: 0.68rem;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.5);
   margin-bottom: 4px;
 }
 .screen-row {
@@ -231,26 +247,51 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 8px;
   background: rgba(255, 255, 255, 0.04);
-  border-radius: 10px;
-  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 9px 11px;
   font-size: 0.68rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.screen-row:hover {
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.2);
 }
 .screen-row .pos {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   font-weight: 700;
   font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.6);
 }
-.screen-row .name { flex: 1; font-weight: 600; }
-.screen-row .time { color: var(--muted); font-variant-numeric: tabular-nums; }
-.screen-row.top1 { border: 1px solid rgba(201, 148, 92, 0.55); }
-.screen-row.top1 .pos { background: var(--accent); color: #1a1205; }
-.screen-row.top2 { border: 1px solid rgba(176, 164, 148, 0.45); }
-.screen-row.top2 .pos { background: #b0a494; color: #171310; }
+.screen-row .name { flex: 1; font-weight: 600; color: #e0e0e0; }
+.screen-row .time { color: rgba(255, 255, 255, 0.45); font-variant-numeric: tabular-nums; font-weight: 500; }
+.screen-row.top1 {
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.05));
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+}
+.screen-row.top1 .pos { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #1a1205; box-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
+.screen-row.top1 .name { color: #ffd700; }
+.screen-row.top1 .time { color: rgba(255, 215, 0, 0.7); }
+.screen-row.top2 {
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  background: linear-gradient(90deg, rgba(0, 212, 255, 0.08), rgba(123, 47, 247, 0.05));
+}
+.screen-row.top2 .pos { background: linear-gradient(135deg, #00d4ff, #7b2ff7); color: #fff; box-shadow: 0 0 8px rgba(0, 212, 255, 0.4); }
+.screen-row.top2 .name { color: #00d4ff; }
+.screen-row.top2 .time { color: rgba(0, 212, 255, 0.7); }
+.screen-row.top3 {
+  border: 1px solid rgba(255, 0, 110, 0.3);
+  background: linear-gradient(90deg, rgba(255, 0, 110, 0.06), rgba(123, 47, 247, 0.04));
+}
+.screen-row.top3 .pos { background: linear-gradient(135deg, #ff006e, #7b2ff7); color: #fff; box-shadow: 0 0 8px rgba(255, 0, 110, 0.4); }
+.screen-row.top3 .name { color: #ff006e; }
+.screen-row.top3 .time { color: rgba(255, 0, 110, 0.6); }
 
 /* ============ Sections ============ */
 section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
@@ -335,7 +376,7 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
   position: fixed;
   inset: 0;
   z-index: 120;
-  background: rgba(15, 11, 8, 0.92);
+  background: rgba(10, 10, 21, 0.92);
   backdrop-filter: blur(8px);
   display: grid;
   place-items: center;
@@ -817,7 +858,7 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
               <div class="screen-row top2">
                 <span class="pos">2</span><span class="name">J. Pérez</span><span class="time">15:23:08</span>
               </div>
-              <div class="screen-row">
+              <div class="screen-row top3">
                 <span class="pos">3</span><span class="name">M. Ramírez</span><span class="time">15:24:37</span>
               </div>
               <div class="screen-row">
@@ -1080,7 +1121,7 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
     var rows = [
       { pos: '1', name: 'D. López', time: '15:22:41', cls: 'top1' },
       { pos: '2', name: 'J. Pérez', time: '15:23:08', cls: 'top2' },
-      { pos: '3', name: 'M. Ramírez', time: '15:24:37', cls: '' }
+      { pos: '3', name: 'M. Ramírez', time: '15:24:37', cls: 'top3' }
     ];
 
     grid.innerHTML = eventos.map(function (ev) {
