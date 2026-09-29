@@ -469,6 +469,21 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
 .flyer-btn:hover .flyer-hint,
 .flyer-btn:focus-visible .flyer-hint { opacity: 1; }
 
+.event-img-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.event-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.app-card:hover .event-img { transform: scale(1.03); }
+
 /* Lightbox */
 .lightbox {
   position: fixed;
@@ -1175,6 +1190,19 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
     return storage.ref('flyers/' + eventoId).delete().catch(function () {});
   }
 
+  function uploadImagen(file, eventoId) {
+    return fileToBase64(file).then(function (base64) {
+      var storageRef = storage.ref('Imagenes/' + eventoId);
+      return storageRef.putString(base64, 'data_url').then(function () {
+        return storageRef.getDownloadURL();
+      });
+    });
+  }
+
+  function deleteImagen(eventoId) {
+    return storage.ref('Imagenes/' + eventoId).delete().catch(function () {});
+  }
+
   /* ===== State ===== */
   var eventos = [];
   var currentFilter = 'all';
@@ -1231,12 +1259,17 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
         ? '<button class="flyer-btn" type="button" aria-label="Ver flayer"><img class="flyer-img" src="' + esc(ev.flyerUrl) + '" alt="Flayer ' + esc(ev.name) + '"><span class="flyer-hint">🔍 Ver flayer</span></button>'
         : '';
 
+      var imagen = ev.imagenUrl
+        ? '<div class="event-img-wrap"><img class="event-img" src="' + esc(ev.imagenUrl) + '" alt="Foto ' + esc(ev.name) + '"></div>'
+        : '';
+
       var tags = (ev.tags || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('');
 
       return '' +
         '<article class="app-card reveal" data-sport="' + esc(ev.sport || '') + '">' +
           '<div class="app-visual">' +
             flyer +
+            imagen +
             mockup +
             '<span class="badge">' + esc(ev.sportLabel || '') + '</span>' +
           '</div>' +
@@ -1439,10 +1472,12 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
           '<div class="admin-thumb">' + (ev.flyerUrl ? '<img src="' + esc(ev.flyerUrl) + '" alt="">' : '🖼️') + '</div>' +
           '<div class="admin-info">' +
             '<strong>' + esc(ev.name) + '</strong>' +
-            '<span class="admin-meta">' + esc(ev.sportLabel || '') + ' · ' + (ev.flyerUrl ? 'Flayer ✓ en la nube' : 'Sin flayer') + '</span>' +
+            '<span class="admin-meta">' + esc(ev.sportLabel || '') + ' · ' + (ev.flyerUrl ? 'Flayer ✓' : 'Sin flayer') + ' · ' + (ev.imagenUrl ? 'Imagen ✓' : 'Sin imagen') + '</span>' +
             '<div class="admin-actions">' +
               '<label class="admin-btn">' + (ev.flyerUrl ? '🔁 Cambiar' : '⬆ Subir flayer') + '<input type="file" accept="image/*" hidden data-flyer-input="' + i + '"></label>' +
               (ev.flyerUrl ? '<button type="button" class="admin-btn danger" data-flyer-del="' + i + '">🗑 Quitar</button>' : '') +
+              '<label class="admin-btn">' + (ev.imagenUrl ? '🔁 Cambiar' : '⬆ Subir imagen') + '<input type="file" accept="image/*" hidden data-imagen-input="' + i + '"></label>' +
+              (ev.imagenUrl ? '<button type="button" class="admin-btn danger" data-imagen-del="' + i + '">🗑 Quitar</button>' : '') +
               '<button type="button" class="admin-btn" data-edit="' + i + '">✏️ Editar</button>' +
               '<button type="button" class="admin-btn danger" data-del="' + i + '">🗑 Borrar</button>' +
             '</div>' +
@@ -1496,6 +1531,31 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
       });
     }
 
+    var imagenInput = e.target.closest('[data-imagen-input]');
+    if (imagenInput) {
+      imagenInput.addEventListener('change', function () {
+        var file = imagenInput.files[0];
+        if (!file) return;
+        var idx = Number(imagenInput.dataset.imagenInput);
+        var ev = eventos[idx];
+        uploadImagen(file, ev.id)
+          .then(function (url) { return updateEvento(ev.id, { imagenUrl: url }); })
+          .then(function () { toast('Imagen subida ✓'); })
+          .catch(function () { alert('No se pudo subir la imagen.'); });
+      });
+    }
+
+    var imagenDel = e.target.closest('[data-imagen-del]');
+    if (imagenDel) {
+      var idx = Number(imagenDel.dataset.imagenDel);
+      var ev = eventos[idx];
+      askConfirm('🗑 Quitar imagen', '¿Quitar la imagen de este evento?', function () {
+        deleteImagen(ev.id)
+          .then(function () { return updateEvento(ev.id, { imagenUrl: '' }); })
+          .then(function () { toast('Imagen eliminada.'); });
+      });
+    }
+
     var editBtn = e.target.closest('[data-edit]');
     if (editBtn) {
       var form = panel.querySelector('[data-edit-form="' + editBtn.dataset.edit + '"]');
@@ -1517,7 +1577,7 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
       var ev = eventos[idx];
       if (ev) {
         askConfirm('🗑 Borrar evento', '¿Borrar "' + ev.name + '"? Esta acción no se puede deshacer.', function () {
-          deleteFlyer(ev.id)
+          Promise.all([deleteFlyer(ev.id), deleteImagen(ev.id)])
             .then(function () { return deleteEvento(ev.id); })
             .then(function () { toast('Evento "' + ev.name + '" eliminado.'); });
         });
@@ -1563,7 +1623,8 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
       sportLabel: sportLabels[sport],
       tags: ['Resultados en línea', 'Diplomas PDF'],
       url: url,
-      flyerUrl: ''
+      flyerUrl: '',
+      imagenUrl: ''
     }).then(function () {
       e.target.reset();
       toast('Evento "' + name + '" agregado ✓');
