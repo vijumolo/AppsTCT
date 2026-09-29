@@ -729,6 +729,14 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
   place-items: center;
   padding: 16px;
 }
+.admin-hero-upload {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+}
+
 .admin-panel[hidden] { display: none; }
 .admin-box {
   width: min(660px, 100%);
@@ -1108,8 +1116,11 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
       </div>
       <p class="admin-note">
         <strong style="color: var(--primary);">v4 — Firebase</strong> — Los eventos se guardan en la nube (Firestore).
-        Sube flyers con el botón de cada evento. Los cambios se reflejan al instante en la página.
+        Sube flyers e imágenes con los botones de cada evento. Los cambios se reflejan al instante en la página.
       </p>
+      <div class="admin-hero-upload">
+        <label class="admin-btn">🖼 Cambiar imagen principal<input type="file" accept="image/*" id="hero-input" hidden></label>
+      </div>
       <div id="admin-list"><p class="admin-note">Cargando eventos…</p></div>
       <form class="admin-add" id="admin-add">
         <h4>➕ Agregar evento futuro</h4>
@@ -1201,6 +1212,15 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
 
   function deleteImagen(eventoId) {
     return storage.ref('Imagenes/' + eventoId).delete().catch(function () {});
+  }
+
+  function uploadHeroImage(file) {
+    return fileToBase64(file).then(function (base64) {
+      var storageRef = storage.ref('hero/hero');
+      return storageRef.putString(base64, 'data_url').then(function () {
+        return storageRef.getDownloadURL();
+      });
+    });
   }
 
   /* ===== State ===== */
@@ -1633,9 +1653,31 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
     });
   });
 
+  /* Hero image upload */
+  var heroInput = document.getElementById('hero-input');
+  if (heroInput) {
+    heroInput.addEventListener('change', function () {
+      var file = heroInput.files[0];
+      if (!file) return;
+      uploadHeroImage(file)
+        .then(function (url) {
+          return db.collection('settings').doc('hero').set({ heroUrl: url }, { merge: true });
+        })
+        .then(function () { toast('Imagen principal actualizada ✓'); })
+        .catch(function () { alert('No se pudo subir la imagen.'); });
+    });
+  }
+
   /* ===== Init ===== */
   initRealtimeListener();
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* ===== Hero image from Firestore ===== */
+  db.collection('settings').doc('hero').onSnapshot(function (doc) {
+    if (doc.exists && doc.data().heroUrl) {
+      document.querySelector('.hero-photo').src = doc.data().heroUrl;
+    }
+  });
 })();
   </script>
 </body>
