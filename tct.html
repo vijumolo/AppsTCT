@@ -179,119 +179,160 @@ a { color: inherit; text-decoration: none; }
 /* ============ Phone mockup ============ */
 .phone {
   position: relative;
-  width: 260px;
-  background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
-  border: 2px solid rgba(0, 212, 255, 0.3);
-  border-radius: 36px;
-  padding: 14px 12px 18px;
-  box-shadow: 0 0 30px rgba(0, 212, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.5);
+  width: 270px;
+  background: linear-gradient(160deg, #0d0d0d, #1a1a1a);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 40px;
+  padding: 16px 14px 20px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 .phone::before {
   content: '';
   position: absolute;
-  inset: -2px;
-  border-radius: 38px;
-  background: linear-gradient(145deg, #00d4ff, #7b2ff7, #ff006e);
+  inset: -1px;
+  border-radius: 41px;
+  background: linear-gradient(160deg, #ff6b00, #ff006e, #7b2ff7);
   z-index: -1;
-  opacity: 0.4;
-  filter: blur(8px);
+  opacity: 0.6;
+  filter: blur(12px);
 }
 .phone-notch {
-  width: 80px;
-  height: 6px;
+  width: 70px;
+  height: 5px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #00d4ff, #7b2ff7);
-  margin: 0 auto 12px;
-  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  background: linear-gradient(90deg, #ff6b00, #ff006e);
+  margin: 0 auto 14px;
+  box-shadow: 0 0 12px rgba(255, 107, 0, 0.6);
 }
 .phone-screen {
-  background: linear-gradient(180deg, #16213e, #0a0a15);
-  border-radius: 22px;
-  padding: 16px 12px;
+  background: linear-gradient(180deg, #0a0a0a, #111);
+  border-radius: 28px;
+  padding: 18px 14px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  min-height: 330px;
+  gap: 10px;
+  min-height: 340px;
+  position: relative;
+  overflow: hidden;
+}
+.phone-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(180deg, rgba(255, 107, 0, 0.08), transparent);
+  pointer-events: none;
 }
 .phone-hero { margin-inline: auto; transform: rotate(2deg); }
-.phone-hero .phone-screen { min-height: 380px; }
+.phone-hero .phone-screen { min-height: 390px; }
 
 .screen-kicker {
-  font-size: 0.55rem;
-  letter-spacing: 0.22em;
-  color: #00d4ff;
-  font-weight: 700;
+  font-size: 0.5rem;
+  letter-spacing: 0.28em;
+  color: #ff6b00;
+  font-weight: 800;
   text-transform: uppercase;
+}
+.screen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+.screen-live {
+  font-size: 0.45rem;
+  letter-spacing: 0.15em;
+  color: #ff006e;
+  font-weight: 700;
+  background: rgba(255, 0, 110, 0.1);
+  border: 1px solid rgba(255, 0, 110, 0.2);
+  padding: 2px 8px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.screen-live::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ff006e;
+  box-shadow: 0 0 6px #ff006e;
 }
 .screen-title {
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-weight: 800;
-  font-size: 1rem;
-  margin-bottom: 6px;
-  background: linear-gradient(90deg, #00d4ff, #7b2ff7, #ff006e);
+  font-weight: 900;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  background: linear-gradient(90deg, #ff6b00, #ff006e);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  letter-spacing: -0.02em;
 }
 .screen-search {
-  background: rgba(0, 212, 255, 0.08);
-  border: 1px solid rgba(0, 212, 255, 0.2);
-  border-radius: 12px;
-  padding: 8px 12px;
-  font-size: 0.68rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 6px;
 }
 .screen-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 12px;
-  padding: 9px 11px;
-  font-size: 0.68rem;
-  transition: background 0.2s, border-color 0.2s;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  padding: 10px 12px;
+  font-size: 0.7rem;
+  transition: all 0.2s;
 }
 .screen-row:hover {
-  background: rgba(0, 212, 255, 0.08);
-  border-color: rgba(0, 212, 255, 0.2);
+  background: rgba(255, 107, 0, 0.06);
+  border-color: rgba(255, 107, 0, 0.15);
 }
 .screen-row .pos {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
   display: grid;
   place-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  font-weight: 700;
-  font-size: 0.62rem;
-  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.06);
+  font-weight: 800;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'SF Mono', 'Fira Code', monospace;
 }
-.screen-row .name { flex: 1; font-weight: 600; color: #e0e0e0; }
-.screen-row .time { color: rgba(255, 255, 255, 0.45); font-variant-numeric: tabular-nums; font-weight: 500; }
+.screen-row .name { flex: 1; font-weight: 700; color: #e8e8e8; letter-spacing: -0.01em; }
+.screen-row .time { color: rgba(255, 255, 255, 0.4); font-variant-numeric: tabular-nums; font-weight: 600; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.65rem; }
 .screen-row.top1 {
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.05));
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  background: linear-gradient(90deg, rgba(255, 107, 0, 0.12), rgba(255, 0, 110, 0.06));
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.08);
 }
-.screen-row.top1 .pos { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #1a1205; box-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
-.screen-row.top1 .name { color: #ffd700; }
-.screen-row.top1 .time { color: rgba(255, 215, 0, 0.7); }
+.screen-row.top1 .pos { background: linear-gradient(135deg, #ff6b00, #ff8c00); color: #000; box-shadow: 0 0 12px rgba(255, 107, 0, 0.5); }
+.screen-row.top1 .name { color: #ff6b00; }
+.screen-row.top1 .time { color: rgba(255, 107, 0, 0.8); }
 .screen-row.top2 {
-  border: 1px solid rgba(0, 212, 255, 0.35);
-  background: linear-gradient(90deg, rgba(0, 212, 255, 0.08), rgba(123, 47, 247, 0.05));
+  border: 1px solid rgba(255, 0, 110, 0.25);
+  background: linear-gradient(90deg, rgba(255, 0, 110, 0.08), rgba(123, 47, 247, 0.04));
 }
-.screen-row.top2 .pos { background: linear-gradient(135deg, #00d4ff, #7b2ff7); color: #fff; box-shadow: 0 0 8px rgba(0, 212, 255, 0.4); }
-.screen-row.top2 .name { color: #00d4ff; }
-.screen-row.top2 .time { color: rgba(0, 212, 255, 0.7); }
+.screen-row.top2 .pos { background: linear-gradient(135deg, #ff006e, #7b2ff7); color: #fff; box-shadow: 0 0 12px rgba(255, 0, 110, 0.4); }
+.screen-row.top2 .name { color: #ff006e; }
+.screen-row.top2 .time { color: rgba(255, 0, 110, 0.7); }
 .screen-row.top3 {
-  border: 1px solid rgba(255, 0, 110, 0.3);
-  background: linear-gradient(90deg, rgba(255, 0, 110, 0.06), rgba(123, 47, 247, 0.04));
+  border: 1px solid rgba(123, 47, 247, 0.2);
+  background: linear-gradient(90deg, rgba(123, 47, 247, 0.06), rgba(0, 212, 255, 0.03));
 }
-.screen-row.top3 .pos { background: linear-gradient(135deg, #ff006e, #7b2ff7); color: #fff; box-shadow: 0 0 8px rgba(255, 0, 110, 0.4); }
-.screen-row.top3 .name { color: #ff006e; }
-.screen-row.top3 .time { color: rgba(255, 0, 110, 0.6); }
+.screen-row.top3 .pos { background: linear-gradient(135deg, #7b2ff7, #00d4ff); color: #fff; box-shadow: 0 0 12px rgba(123, 47, 247, 0.4); }
+.screen-row.top3 .name { color: #7b2ff7; }
+.screen-row.top3 .time { color: rgba(123, 47, 247, 0.6); }
 
 /* ============ Sections ============ */
 section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
@@ -849,8 +890,11 @@ section h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 14px; }
           <div class="phone phone-hero">
             <div class="phone-notch"></div>
             <div class="phone-screen">
-              <p class="screen-kicker">TCT COLOMBIA</p>
-              <p class="screen-title">Cronometraje Profesional</p>
+              <div class="screen-header">
+                <span class="screen-kicker">TCT COLOMBIA</span>
+                <span class="screen-live">EN VIVO</span>
+              </div>
+              <p class="screen-title">Vuelta a Honduras 2026</p>
               <div class="screen-search">🔍 Buscar corredor…</div>
               <div class="screen-row top1">
                 <span class="pos">1</span><span class="name">D. López</span><span class="time">15:22:41</span>
